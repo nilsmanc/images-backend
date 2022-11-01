@@ -1,7 +1,8 @@
 import express from 'express'
-import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+import { registerValidaton } from './validations/auth.js'
 import { mongodbLink } from './variables.js'
+import { validationResult } from 'express-validator'
 
 mongoose
   .connect(mongodbLink)
@@ -10,22 +11,15 @@ mongoose
 
 const app = express()
 
-app.use = express.json()
+app.use(express.json())
 
-app.post('/auth/login', (req, res) => {
-  console.log(req.body)
+app.post('/auth/register', registerValidaton, (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.array())
+  }
 
-  const token = jwt.sign(
-    {
-      email: req.body.email,
-      fullName: 'Name Surname',
-    },
-    'secret',
-  )
-  res.json({
-    success: true,
-    token,
-  })
+  res.json({ success: true })
 })
 
 app.listen(4444, (err) => {
