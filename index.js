@@ -9,7 +9,7 @@ import { mongodbLink } from './variables.js'
 
 import { handleValidationErrors, checkAuth } from './utils/index.js'
 
-import { UserController, PostController } from './controllers/index.js'
+import { UserController, PostController, CommentController } from './controllers/index.js'
 
 mongoose
   .connect(mongodbLink)
@@ -65,6 +65,9 @@ app.patch(
   handleValidationErrors,
   PostController.update,
 )
+
+app.get('/comments/:id', CommentController.getPostComments)
+app.post('/comments', checkAuth, CommentController.create)
 
 app.listen(4444, (err) => {
   if (err) {
