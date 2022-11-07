@@ -59,7 +59,7 @@ export const getOne = async (req, res) => {
         }
         res.json(doc)
       },
-    )
+    ).populate('user')
   } catch (err) {
     console.log(err)
     res.status(500).json({
@@ -106,7 +106,7 @@ export const create = async (req, res) => {
     const doc = new PostModel({
       imageUrl: req.body.imageUrl,
       description: req.body.description,
-      tags: req.body.tags.split(','),
+      tags: req.body.tags?.split(','),
       user: req.userId,
     })
 
@@ -144,6 +144,20 @@ export const update = async (req, res) => {
     console.log(err)
     res.status(500).json({
       message: 'Failed to update the post',
+    })
+  }
+}
+
+export const getUserPosts = async (req, res) => {
+  const userId = req.params.id
+  try {
+    const posts = await PostModel.find({ user: { _id: userId } }).exec()
+
+    res.json(posts)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Failed to get posts',
     })
   }
 }

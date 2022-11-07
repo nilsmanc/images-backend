@@ -41,7 +41,10 @@ app.post('/auth/login', loginValidaton, handleValidationErrors, UserController.l
 app.post('/auth/register', registerValidaton, handleValidationErrors, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+app.get('/users', UserController.getAllUsers)
+app.get('/users/:id', UserController.getOneUser)
+
+app.post('/upload', upload.single('image'), (req, res) => {
   res.json({
     url: `/uploads/${req.file.originalname}`,
   })
@@ -52,6 +55,7 @@ app.get('/tags', PostController.getLastTags)
 app.get('/posts', PostController.getAll)
 app.get('/posts/tags', PostController.getLastTags)
 app.get('/posts/:id', PostController.getOne)
+app.get('/posts/user/:id', PostController.getUserPosts)
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch(
