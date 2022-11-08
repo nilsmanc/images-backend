@@ -68,6 +68,7 @@ app.patch(
 
 app.get('/comments/:id', CommentController.getPostComments)
 app.post('/comments', checkAuth, CommentController.create)
+app.delete('/comments/:id', checkAuth, CommentController.remove)
 
 app.listen(4444, (err) => {
   if (err) {
