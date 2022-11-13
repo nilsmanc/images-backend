@@ -5,14 +5,13 @@ import multer from 'multer'
 import cors from 'cors'
 
 import { registerValidaton, loginValidaton, postCreateValidation } from './validations.js'
-import { mongodbLink } from './variables.js'
 
 import { handleValidationErrors, checkAuth } from './utils/index.js'
 
 import { UserController, PostController, CommentController } from './controllers/index.js'
 
 mongoose
-  .connect(process.env.MONGODB_URI || mongodbLink)
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('Database OK'))
   .catch((err) => console.log('Database error', err))
 
