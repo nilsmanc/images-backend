@@ -6,6 +6,7 @@ import UserModel from '../models/User.js'
 export const register = async (req, res) => {
   try {
     const password = req.body.password
+
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
 
@@ -107,6 +108,7 @@ export const getMe = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find().exec()
+
     res.json(users)
   } catch (err) {
     console.log(err)

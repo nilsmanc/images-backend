@@ -150,6 +150,7 @@ export const update = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
   const userId = req.params.id
+
   try {
     const posts = await PostModel.find({ user: { _id: userId } }).exec()
 

@@ -12,7 +12,7 @@ import { handleValidationErrors, checkAuth } from './utils/index.js'
 import { UserController, PostController, CommentController } from './controllers/index.js'
 
 mongoose
-  .connect(mongodbLink)
+  .connect(process.env.MONGODB_URI || mongodbLink)
   .then(() => console.log('Database OK'))
   .catch((err) => console.log('Database error', err))
 
@@ -70,7 +70,7 @@ app.get('/comments/:id', CommentController.getPostComments)
 app.post('/comments', checkAuth, CommentController.create)
 app.delete('/comments/:id', checkAuth, CommentController.remove)
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err)
   }
