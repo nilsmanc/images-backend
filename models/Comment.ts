@@ -1,6 +1,15 @@
 import mongoose from 'mongoose'
+import { Post } from './Post'
+import { User } from './User'
 
-const CommentSchema = new mongoose.Schema(
+interface Comment extends Document {
+  text: string
+  likes: number
+  user: User
+  post: Post
+}
+
+const CommentSchema = new mongoose.Schema<Comment>(
   {
     text: {
       type: String,
@@ -24,4 +33,4 @@ const CommentSchema = new mongoose.Schema(
   { timestamps: true },
 )
 
-export default mongoose.model('Comment', CommentSchema)
+export default mongoose.model<Comment>('Comment', CommentSchema)
