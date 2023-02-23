@@ -1,6 +1,9 @@
-import CommentModel from '../models/Comment.js'
+import { Request, Response } from 'express'
 
-export const create = async (req, res) => {
+import CommentModel from '../models/Comment.js'
+import { UserAuthInfoRequest } from '../types.js'
+
+export const create = async (req: UserAuthInfoRequest, res: Response) => {
   try {
     const doc = new CommentModel({
       text: req.body.text,
@@ -19,7 +22,7 @@ export const create = async (req, res) => {
   }
 }
 
-export const getPostComments = async (req, res) => {
+export const getPostComments = async (req: Request, res: Response) => {
   const postId = req.params.id
   try {
     const comments = await CommentModel.find({ post: { _id: postId } }).populate('user')
@@ -33,7 +36,7 @@ export const getPostComments = async (req, res) => {
   }
 }
 
-export const remove = async (req, res) => {
+export const remove = async (req: Request, res: Response) => {
   try {
     const commentId = req.params.id
 
@@ -41,7 +44,7 @@ export const remove = async (req, res) => {
       {
         _id: commentId,
       },
-      (err, doc) => {
+      (err: Error, doc: Document) => {
         if (err) {
           console.log(err)
           return res.status(500).json({

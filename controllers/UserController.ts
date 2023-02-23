@@ -1,9 +1,11 @@
+import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import UserModel from '../models/User.js'
+import { UserAuthInfoRequest, UserDocument } from '../types.js'
 
-export const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
   try {
     const password = req.body.password
 
@@ -17,7 +19,7 @@ export const register = async (req, res) => {
       passwordHash: hash,
     })
 
-    const user = await doc.save()
+    const user = (await doc.save()) as UserDocument
 
     const token = jwt.sign(
       {
@@ -43,9 +45,9 @@ export const register = async (req, res) => {
   }
 }
 
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
   try {
-    const user = await UserModel.findOne({ email: req.body.email })
+    const user = (await UserModel.findOne({ email: req.body.email })) as UserDocument
 
     if (!user) {
       return res.status(404).json({
@@ -85,9 +87,9 @@ export const login = async (req, res) => {
   }
 }
 
-export const getMe = async (req, res) => {
+export const getMe = async (req: UserAuthInfoRequest, res: Response) => {
   try {
-    const user = await UserModel.findById(req.userId)
+    const user = (await UserModel.findById(req.userId)) as UserDocument
 
     if (!user)
       return res.status(404).json({
@@ -105,7 +107,7 @@ export const getMe = async (req, res) => {
   }
 }
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await UserModel.find().exec()
 
@@ -118,7 +120,7 @@ export const getAllUsers = async (req, res) => {
   }
 }
 
-export const getOneUser = async (req, res) => {
+export const getOneUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id
 
