@@ -1,11 +1,14 @@
+import { NextFunction, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-export default (req, res, next) => {
+import { JwtPayload, UserAuthInfoRequest } from '../types'
+
+export default (req: UserAuthInfoRequest, res: Response, next: NextFunction) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '')
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, 'secret')
+      const decoded = jwt.verify(token, 'secret') as JwtPayload
 
       req.userId = decoded._id
       next()
