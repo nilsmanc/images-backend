@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 
-import PostModel from '../models/Post.js'
-import { UserAuthInfoRequest } from '../types.js'
+import PostModel from '../models/Post'
 
 export const getLastTags = async (req: Request, res: Response) => {
   try {
@@ -104,7 +103,7 @@ export const remove = async (req: Request, res: Response) => {
   }
 }
 
-export const create = async (req: UserAuthInfoRequest, res: Response) => {
+export const create = async (req: any, res: Response) => {
   try {
     const doc = new PostModel({
       imageUrl: req.body.imageUrl,
@@ -124,7 +123,7 @@ export const create = async (req: UserAuthInfoRequest, res: Response) => {
   }
 }
 
-export const update = async (req: UserAuthInfoRequest, res: Response) => {
+export const update = async (req: any, res: Response) => {
   try {
     const postId = req.params.id
 

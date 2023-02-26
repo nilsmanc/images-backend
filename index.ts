@@ -4,9 +4,9 @@ import fs from 'fs'
 import multer from 'multer'
 import cors from 'cors'
 
-import { registerValidaton, loginValidaton, postCreateValidation } from './validations.js'
-import { handleValidationErrors, checkAuth } from './utils/index.js'
-import { UserController, PostController, CommentController } from './controllers/index.js'
+import { registerValidaton, loginValidaton, postCreateValidation } from './validations'
+import { handleValidationErrors, checkAuth } from './utils/index'
+import { UserController, PostController, CommentController } from './controllers/index'
 
 mongoose
   .connect(process.env.MONGODB_URI as string)
@@ -39,7 +39,7 @@ app.use('/uploads', express.static('uploads'))
 
 app.post('/auth/login', loginValidaton, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidaton, handleValidationErrors, UserController.register)
-//@ts-ignore
+
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/users', UserController.getAllUsers)
@@ -57,13 +57,12 @@ app.get('/posts', PostController.getAll)
 app.get('/posts/tags', PostController.getLastTags)
 app.get('/posts/:id', PostController.getOne)
 app.get('/posts/user/:id', PostController.getUserPosts)
-//@ts-ignore
+
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create)
-//@ts-ignore
+
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch(
   '/posts/:id',
-  //@ts-ignore
   checkAuth,
   postCreateValidation,
   handleValidationErrors,
@@ -71,9 +70,7 @@ app.patch(
 )
 
 app.get('/comments/:id', CommentController.getPostComments)
-//@ts-ignore
 app.post('/comments', checkAuth, CommentController.create)
-//@ts-ignore
 app.delete('/comments/:id', checkAuth, CommentController.remove)
 
 app.listen(process.env.PORT || 4444, () => {

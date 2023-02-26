@@ -2,8 +2,8 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import UserModel from '../models/User.js'
-import { UserAuthInfoRequest, UserDocument } from '../types.js'
+import UserModel from '../models/User'
+import { UserDocument } from '../types'
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -87,7 +87,7 @@ export const login = async (req: Request, res: Response) => {
   }
 }
 
-export const getMe = async (req: UserAuthInfoRequest, res: Response) => {
+export const getMe = async (req: any, res: Response) => {
   try {
     const user = (await UserModel.findById(req.userId)) as UserDocument
 

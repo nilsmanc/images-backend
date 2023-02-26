@@ -1,9 +1,8 @@
 import { Request, Response } from 'express'
 
-import CommentModel from '../models/Comment.js'
-import { UserAuthInfoRequest } from '../types.js'
+import CommentModel from '../models/Comment'
 
-export const create = async (req: UserAuthInfoRequest, res: Response) => {
+export const create = async (req: any, res: Response) => {
   try {
     const doc = new CommentModel({
       text: req.body.text,

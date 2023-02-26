@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import { JwtPayload, UserAuthInfoRequest } from '../types'
+import { JwtPayload } from '../types'
 
-export default (req: UserAuthInfoRequest, res: Response, next: NextFunction) => {
+export default (req: any, res: Response, next: NextFunction) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '')
 
   if (token) {
